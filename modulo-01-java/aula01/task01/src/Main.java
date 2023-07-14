@@ -106,53 +106,53 @@ public class Main {
         System.out.println("Exercício 3");
         System.out.println("Digite a palavra que deseja traduzir: ");
         palavraParaTraduzir = scanner.nextLine();
-        switch (palavraParaTraduzir) {
-            case "Cachorro":
+        switch (palavraParaTraduzir.toLowerCase()) {
+            case "cachorro":
                 System.out.println("Dog");
                 break;
-            case "Dog":
+            case "dog":
                 System.out.println("Cachorro");
                 break;
-            case "Tempo":
+            case "tempo":
                 System.out.println("Time");
                 break;
-            case "Time":
+            case "time":
                 System.out.println("Tempo");
                 break;
-            case "Amor":
+            case "amor":
                 System.out.println("Love");
                 break;
-            case "Love":
+            case "love":
                 System.out.println("Amor");
                 break;
-            case "Cidade":
+            case "cidade":
                 System.out.println("City");
                 break;
-            case "City":
+            case "city":
                 System.out.println("Cidade");
                 break;
-            case "Feliz":
+            case "feliz":
                 System.out.println("Happy");
                 break;
-            case "Happy":
+            case "happy":
                 System.out.println("Feliz");
                 break;
-            case "Triste":
+            case "triste":
                 System.out.println("Sad");
                 break;
-            case "Sad":
+            case "sad":
                 System.out.println("Triste");
                 break;
-            case "Deveria":
+            case "deveria":
                 System.out.println("Should");
                 break;
-            case "Should":
+            case "should":
                 System.out.println("Deveria");
                 break;
-            case "Poderia":
+            case "poderia":
                 System.out.println("Could");
                 break;
-            case "Could":
+            case "could":
                 System.out.println("Poderia");
                 break;
             default:
@@ -243,14 +243,14 @@ public class Main {
         cargo = scanner.nextLine();
         System.out.println("Digite o salário do funcionário:");
         salario = scanner.nextFloat();
-        switch (cargo) {
-            case "Gerente":
+        switch (cargo.toLowerCase()) {
+            case "gerente":
                 novoSalario = 1.1f * salario;
                 break;
-            case "Engenheiro":
+            case "engenheiro":
                 novoSalario = 1.2f * salario;
                 break;
-            case "Técnico":
+            case "técnico":
                 novoSalario = 1.3f * salario;
                 break;
             default:
