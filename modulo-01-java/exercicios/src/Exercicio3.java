@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Exemplo3 {
+public class Exercicio3 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         int qntd, soma = 0;

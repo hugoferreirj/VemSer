@@ -1,10 +1,19 @@
-public class Exemplo2 {
+import java.util.Scanner;
+
+public class Exercicio2 {
     public static void main(String[] args) {
-        int[][] matriz = {{1, 2}, {3, 4}};
-        int somaTotal, somaPrimeiraLinha, somaSegundaLinha, subtracao;
+        Scanner scanner = new Scanner(System.in);
+        int[][] matriz = new int[2][2];
+        int somaTotal = 0, somaPrimeiraLinha, somaSegundaLinha, subtracao;
+        for (int i = 0; i < matriz.length; i++) {
+            for (int j = 0; j < matriz[i].length; j++){
+                System.out.printf("Digite o elemento [%d][%d]: ", i,j);
+                matriz[i][j] = scanner.nextInt();
+                somaTotal += matriz[i][j];
+            }
+        }
         somaPrimeiraLinha = matriz[0][0] + matriz[0][1];
         somaSegundaLinha = matriz[1][0] + matriz[1][1];
-        somaTotal = somaPrimeiraLinha + somaSegundaLinha;
         subtracao = somaPrimeiraLinha - somaSegundaLinha;
         System.out.println("Soma primeira linha: " + somaPrimeiraLinha);
         System.out.println("Soma segunda linha: " + somaSegundaLinha);
