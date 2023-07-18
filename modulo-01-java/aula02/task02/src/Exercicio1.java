@@ -4,7 +4,7 @@ public class Exercicio1 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         String nome;
-        Float preco, precoComDesconto, precoTotal;
+        float preco, precoComDesconto, precoTotal;
         System.out.print("Digite o nome do produto: ");
         nome = scanner.nextLine();
         System.out.print("Digite o preço do produto: ");
