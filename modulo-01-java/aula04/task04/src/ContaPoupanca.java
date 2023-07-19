@@ -1,6 +1,10 @@
 public class ContaPoupanca extends Conta implements Impressao {
     private static double JUROS_MENSAL = 1.01;
 
+    public ContaPoupanca(Cliente cliente, String numeroConta, Integer agencia, Double saldo) {
+        super(cliente, numeroConta, agencia, saldo);
+    }
+
     public void creditarTaxa() {
         double novoSaldo = this.getSaldo() * JUROS_MENSAL;
         this.setSaldo(novoSaldo);

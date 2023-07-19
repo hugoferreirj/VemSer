@@ -8,6 +8,20 @@ public class Endereco {
     private String estado;
     private String pais;
 
+    public Endereco() {
+    }
+
+    public Endereco(Integer tipo, String logradouro, Integer numero, String complemento, String cep, String cidade, String estado, String pais) {
+        this.tipo = tipo;
+        this.logradouro = logradouro;
+        this.numero = numero;
+        this.complemento = complemento;
+        this.cep = cep;
+        this.cidade = cidade;
+        this.estado = estado;
+        this.pais = pais;
+    }
+
     public Integer getTipo() {
         return tipo;
     }

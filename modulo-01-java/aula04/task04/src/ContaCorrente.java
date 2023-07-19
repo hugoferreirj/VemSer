@@ -2,6 +2,11 @@ public class ContaCorrente extends Conta implements Impressao {
 
     private Double chequeEspecial = 200.00d;
 
+    public ContaCorrente(Cliente cliente, String numeroConta, Integer agencia, Double saldo) {
+        super(cliente, numeroConta, agencia, saldo);
+    }
+
+
     public void setChequeEspecial(Double chequeEspecial) {
         this.chequeEspecial = chequeEspecial;
     }

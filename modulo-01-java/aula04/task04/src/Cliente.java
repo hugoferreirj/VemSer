@@ -4,6 +4,16 @@ public class Cliente {
     private Contato[] contatos = new Contato[2];
     private Endereco[] enderecos = new Endereco[2];
 
+    public Cliente() {
+    }
+
+    public Cliente(String nome, String cpf, Contato[] contatos, Endereco[] enderecos) {
+        this.nome = nome;
+        this.cpf = cpf;
+        this.contatos = contatos;
+        this.enderecos = enderecos;
+    }
+
     public String getNome() {
         return nome;
     }

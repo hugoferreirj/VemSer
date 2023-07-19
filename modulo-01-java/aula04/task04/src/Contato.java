@@ -4,6 +4,12 @@ public class Contato {
     private String telefone;
     private Integer tipo;
 
+    public Contato(String descricao, String telefone, Integer tipo) {
+        this.descricao = descricao;
+        this.telefone = telefone;
+        this.tipo = tipo;
+    }
+
     public String getDescricao() {
         return descricao;
     }

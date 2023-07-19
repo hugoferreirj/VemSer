@@ -5,6 +5,13 @@ public class Conta implements Movimentacao {
     private Integer agencia;
     private Double saldo;
 
+    public Conta(Cliente cliente, String numeroConta, Integer agencia, Double saldo) {
+        this.cliente = cliente;
+        this.numeroConta = numeroConta;
+        this.agencia = agencia;
+        this.saldo = saldo;
+    }
+
     public Cliente getCliente() {
         return cliente;
     }
