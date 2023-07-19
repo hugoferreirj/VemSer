@@ -1,15 +1,7 @@
 public class Main {
     public static void main(String[] args) {
-        Pessoa hugo = new Pessoa();
-        Pessoa mayra = new Pessoa();
-        hugo.setNome("Hugo");
-        hugo.setIdade(21);
-        hugo.setSobrenome("Ferreira");
-        hugo.setNumeroDoWhatsapp("123");
-        mayra.setNome("Mayra");
-        mayra.setIdade(23);
-        mayra.setSobrenome("Silva");
-        mayra.setNumeroDoWhatsapp("456");
+        Pessoa hugo = new Pessoa("Hugo", "Ferreira", 21, "123");
+        Pessoa mayra = new Pessoa("Mayra", "Silva", 23, "456");
         hugo.conversar(mayra);
         System.out.println(hugo.retornarNomeCompleto());
         System.out.println(mayra.ehMaiorDeIdade());
@@ -20,9 +12,11 @@ public class Main {
         Animal mila = new Animal();
         System.out.println(mila.caminha());
         Cachorro nick = new Cachorro("Nick");
+        nick.setRaca("shitzu");
         System.out.println(nick.late());
         System.out.println(nick.caminha());
         Gato tobby = new Gato("Tobby");
+        tobby.setRaca("siames");
         System.out.println(tobby.mia());
         System.out.println(tobby.caminha());
 

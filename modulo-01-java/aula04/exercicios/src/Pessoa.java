@@ -13,6 +13,13 @@ public class Pessoa {
         this.sobrenome = sobrenome;
     }
 
+    public Pessoa(String nome, String sobrenome, int idade, String numeroDoWhatsapp) {
+        this.nome = nome;
+        this.sobrenome = sobrenome;
+        this.idade = idade;
+        this.numeroDoWhatsapp = numeroDoWhatsapp;
+    }
+
     public int getIdade() {
         return idade;
     }
