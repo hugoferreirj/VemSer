@@ -17,6 +17,10 @@ public class Main {
         contaMaria.creditarTaxa();
 
         //Testes
+        contaHugo.sacar(50);
+        contaHugo.depositar(250);
+        contaMaria.sacar(1000000);
+        contaHugo.depositar(-900);
         contaHugo.transferir(contaMaria, 10000.00);
         contaMaria.transferir(contaHugo, 100.00);
         contaHugo.imprimir();
