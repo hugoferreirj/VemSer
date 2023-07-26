@@ -1,0 +1,46 @@
+CREATE TABLE VEM_SER.PAIS (
+    id_pais NUMBER(38, 0) PRIMARY KEY NOT NULL,
+    nome VARCHAR2(50) NOT NULL
+);
+
+CREATE TABLE VEM_SER.ESTADO (
+    id_estado NUMBER(38, 0) PRIMARY KEY NOT NULL,
+    id_pais NUMBER(38, 0) NOT NULL,
+    nome VARCHAR2(50) NOT NULL,
+    CONSTRAINT FK_PAIS FOREIGN KEY (id_pais) REFERENCES PAIS(id_pais)
+);
+
+CREATE TABLE VEM_SER.CIDADE (
+    id_cidade NUMBER(38, 0) NOT NULL,
+    id_estado NUMBER(38, 0) NOT NULL,
+    nome VARCHAR2(50) NOT NULL,
+    CONSTRAINT PK_CIDADE PRIMARY KEY ( id_cidade, id_estado ),
+    CONSTRAINT FK_CIDADE_ESTADO FOREIGN KEY (id_estado) REFERENCES ESTADO(id_estado)
+);
+
+CREATE TABLE VEM_SER.BAIRRO (
+	id_bairro NUMBER(38, 0) NOT NULL,
+	id_cidade NUMBER(38, 0) NOT NULL,
+	id_estado NUMBER(38, 0) NOT NULL,
+	nome VARCHAR2(50) NOT NULL,
+	CONSTRAINT PK_BAIRRO PRIMARY KEY ( id_bairro, id_cidade ),
+	CONSTRAINT FK_CIDADE FOREIGN KEY (id_cidade, id_estado) REFERENCES CIDADE(id_cidade, id_estado)
+);
+
+
+CREATE TABLE VEM_SER.ENDERECO (
+	id_endereco NUMBER(38, 0) PRIMARY KEY NOT NULL,
+	id_bairro NUMBER(38, 0) NOT NULL,
+	id_cidade NUMBER(38, 0) NOT NULL,
+	logradouro VARCHAR2(255) NOT NULL,
+	numero NUMBER(38, 0) NOT NULL,
+	complemento VARCHAR2(255),
+	cep CHAR(9),
+	CONSTRAINT FK_BAIRRO FOREIGN KEY (id_bairro, id_cidade) REFERENCES BAIRRO(id_bairro, id_cidade)
+);
+
+
+
+
+
+
