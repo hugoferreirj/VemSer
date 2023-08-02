@@ -11,10 +11,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/contato") // localhost:8080/contato
 public class ContatoController {
-    private ContatoService contatoService;
+    private final ContatoService contatoService;
 
-    public ContatoController() {
-        contatoService = new ContatoService();
+    public ContatoController(ContatoService contatoService) {
+        this.contatoService = contatoService;
     }
 
     @GetMapping // GET localhost:8080/contato
