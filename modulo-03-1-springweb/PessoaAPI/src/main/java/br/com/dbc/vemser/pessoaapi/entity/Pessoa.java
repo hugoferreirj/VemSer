@@ -1,12 +1,22 @@
 package br.com.dbc.vemser.pessoaapi.entity;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 public class Pessoa {
 
     private Integer idPessoa;
+
+    @NotEmpty
     private String nome;
+    @NotNull
+    @Past
     private LocalDate dataNascimento;
+    @NotEmpty
+    @Size(min = 13, max = 13)
     private String cpf;
 
     public Pessoa() {

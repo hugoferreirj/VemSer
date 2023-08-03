@@ -2,6 +2,7 @@ package br.com.dbc.vemser.pessoaapi.service;
 
 import br.com.dbc.vemser.pessoaapi.entity.Contato;
 import br.com.dbc.vemser.pessoaapi.entity.Endereco;
+import br.com.dbc.vemser.pessoaapi.entity.Pessoa;
 import br.com.dbc.vemser.pessoaapi.repository.ContatoRepository;
 import br.com.dbc.vemser.pessoaapi.repository.EnderecoRepository;
 import org.springframework.stereotype.Service;
@@ -13,11 +14,16 @@ public class EnderecoService {
 
     private final EnderecoRepository enderecoRepository;
 
-    public EnderecoService(EnderecoRepository enderecoRepository) {
+    private final PessoaService pessoaService;
+
+    public EnderecoService(EnderecoRepository enderecoRepository, PessoaService pessoaService) {
         this.enderecoRepository = enderecoRepository;
+        this.pessoaService = pessoaService;
     }
 
-    public Endereco create(Endereco endereco) {
+    public Endereco create(Integer idPessoa, Endereco endereco) throws Exception{
+        Pessoa pessoa = pessoaService.getPessoa(idPessoa);
+        endereco.setIdPessoa(pessoa.getIdPessoa());
         return enderecoRepository.create(endereco);
     }
 

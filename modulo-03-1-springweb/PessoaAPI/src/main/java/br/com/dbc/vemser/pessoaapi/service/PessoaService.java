@@ -1,6 +1,7 @@
 package br.com.dbc.vemser.pessoaapi.service;
 
 import br.com.dbc.vemser.pessoaapi.entity.Pessoa;
+import br.com.dbc.vemser.pessoaapi.exceptions.RegraDeNegocioException;
 import br.com.dbc.vemser.pessoaapi.repository.PessoaRepository;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -18,20 +19,20 @@ public class PessoaService {
     }
 
     public Pessoa create(Pessoa pessoa) {
-        if (StringUtils.isBlank(pessoa.getNome()))
-        {
-            System.out.println("Nome vazio. Erro!");
-            return null;
-        }
-        if (ObjectUtils.isEmpty(pessoa.getDataNascimento())){
-            System.out.println("Não é possível inserir uma pessoa sem data de nascimento. Erro!");
-            return null;
-        }
-        if (pessoa.getCpf().length()<11 || StringUtils.isBlank(pessoa.getCpf()))
-        {
-            System.out.println("CPF inválido. Erro!");
-            return null;
-        }
+//        if (StringUtils.isBlank(pessoa.getNome()))
+//        {
+//            System.out.println("Nome vazio. Erro!");
+//            return null;
+//        }
+//        if (ObjectUtils.isEmpty(pessoa.getDataNascimento())){
+//            System.out.println("Não é possível inserir uma pessoa sem data de nascimento. Erro!");
+//            return null;
+//        }
+//        if (pessoa.getCpf().length()<11 || StringUtils.isBlank(pessoa.getCpf()))
+//        {
+//            System.out.println("CPF inválido. Erro!");
+//            return null;
+//        }
         return pessoaRepository.create(pessoa);
     }
 
@@ -59,11 +60,11 @@ public class PessoaService {
         return pessoaRepository.listByName(nome);
     }
 
-    private Pessoa getPessoa(Integer id) throws Exception {
+    public Pessoa getPessoa(Integer id) throws Exception {
         Pessoa pessoaRecuperada = pessoaRepository.list().stream()
                 .filter(pessoa -> pessoa.getIdPessoa().equals(id))
                 .findFirst()
-                .orElseThrow(() -> new Exception("Pessoa não encontrada!"));
+                .orElseThrow(() -> new RegraDeNegocioException("Pessoa não encontrada!"));
         return pessoaRecuperada;
     }
 }

@@ -2,6 +2,7 @@ package br.com.dbc.vemser.pessoaapi.service;
 
 import br.com.dbc.vemser.pessoaapi.entity.Contato;
 import br.com.dbc.vemser.pessoaapi.entity.Pessoa;
+import br.com.dbc.vemser.pessoaapi.exceptions.RegraDeNegocioException;
 import br.com.dbc.vemser.pessoaapi.repository.ContatoRepository;
 import br.com.dbc.vemser.pessoaapi.repository.PessoaRepository;
 import org.springframework.stereotype.Service;
@@ -12,13 +13,16 @@ import java.util.List;
 public class ContatoService {
 
     private final ContatoRepository contatoRepository;
+    private final PessoaService pessoaService;
 
-    public ContatoService(ContatoRepository contatoRepository) {
+    public ContatoService(ContatoRepository contatoRepository, PessoaService pessoaService) {
         this.contatoRepository = contatoRepository;
+        this.pessoaService = pessoaService;
     }
 
-    public Contato create(Contato contato, Integer idPessoa) {
-        contato.setIdPessoa(idPessoa);
+    public Contato create(Contato contato, Integer idPessoa) throws Exception{
+        Pessoa pessoa = pessoaService.getPessoa(idPessoa);
+        contato.setIdPessoa(pessoa.getIdPessoa());
         return contatoRepository.create(contato);
     }
 
@@ -51,7 +55,7 @@ public class ContatoService {
         Contato contatoRecuperado = contatoRepository.list().stream()
                 .filter(contato -> contato.getIdContato().equals(id))
                 .findFirst()
-                .orElseThrow(() -> new Exception("Contato não encontrado!"));
+                .orElseThrow(() -> new RegraDeNegocioException("Contato não encontrado!"));
         return contatoRecuperado;
     }
 }
