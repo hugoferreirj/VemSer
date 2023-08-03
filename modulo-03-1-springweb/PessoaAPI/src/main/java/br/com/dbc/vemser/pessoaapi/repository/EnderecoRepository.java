@@ -25,6 +25,7 @@ public class EnderecoRepository {
     }
 
     public Endereco create(Endereco endereco) {
+        endereco.setIdEndereco(COUNTER.incrementAndGet());
         listaEnderecos.add(endereco);
         return endereco;
     }
