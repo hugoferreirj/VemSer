@@ -27,9 +27,9 @@ public class ContatoController {
         return contatoService.listByPessoa(id);
     }
 
-    @PostMapping // POST localhost:8080/contato
-    public Contato create(@RequestBody Contato contato) {
-        return contatoService.create(contato);
+    @PostMapping("/{idPessoa}") // POST localhost:8080/contato/{idPessoa}
+    public Contato create(@RequestBody Contato contato, @PathVariable("idPessoa") Integer id) {
+        return contatoService.create(contato, id);
     }
 
     @PutMapping("/{idContato}") // PUT localhost:8080/contato/{idContato}

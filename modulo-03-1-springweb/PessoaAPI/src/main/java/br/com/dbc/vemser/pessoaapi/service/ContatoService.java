@@ -17,7 +17,8 @@ public class ContatoService {
         this.contatoRepository = contatoRepository;
     }
 
-    public Contato create(Contato contato) {
+    public Contato create(Contato contato, Integer idPessoa) {
+        contato.setIdPessoa(idPessoa);
         return contatoRepository.create(contato);
     }
 
