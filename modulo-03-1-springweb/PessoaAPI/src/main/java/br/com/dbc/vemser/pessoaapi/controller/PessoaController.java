@@ -1,7 +1,12 @@
 package br.com.dbc.vemser.pessoaapi.controller;
 
+import br.com.dbc.vemser.pessoaapi.dto.PessoaCreateDTO;
+import br.com.dbc.vemser.pessoaapi.dto.PessoaDTO;
 import br.com.dbc.vemser.pessoaapi.entity.Pessoa;
+import br.com.dbc.vemser.pessoaapi.exceptions.RegraDeNegocioException;
 import br.com.dbc.vemser.pessoaapi.service.PessoaService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -9,14 +14,22 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.stream.Collectors;
 
-@RestController
 @Validated
+@RestController
 @RequestMapping("/pessoa") // localhost:8080/pessoa
+@Slf4j
 public class PessoaController {
 
+    // Modelo ANTIGO de Injeção
+    // @Autowired
     private final PessoaService pessoaService;
+
+    @Value("${user}")
+    private String usuario;
+
+    @Value("${spring.application.name}")
+    private String app;
 
     public PessoaController(PessoaService pessoaService) {
         this.pessoaService = pessoaService;
@@ -24,7 +37,8 @@ public class PessoaController {
 
     @GetMapping("/hello") // GET localhost:8080/pessoa/hello
     public String hello() {
-        return "Hello world!";
+        log.info("hello");
+        return "Hello WORLD!\n" + " <br>App: " + app + " <br>Usuario: " + usuario;
     }
 
     @GetMapping("/hello-2") // GET localhost:8080/pessoa/hello-2
@@ -43,19 +57,22 @@ public class PessoaController {
     }
 
     @PostMapping // POST localhost:8080/pessoa
-    public ResponseEntity<Pessoa> create(@Valid @RequestBody Pessoa pessoa) {
-        return new ResponseEntity<>(pessoaService.create(pessoa), HttpStatus.OK);
+    public ResponseEntity<PessoaDTO> create(@Valid @RequestBody PessoaCreateDTO pessoa) throws RegraDeNegocioException {
+        log.info("criando pessoa");
+        return new ResponseEntity<>(pessoaService.create(pessoa) , HttpStatus.OK);
     }
 
     @PutMapping("/{idPessoa}") // PUT localhost:8080/pessoa/1000
-    public ResponseEntity<Pessoa> update(@PathVariable("idPessoa") Integer id,
-                         @Valid @RequestBody Pessoa pessoaAtualizar) throws Exception {
-        return new ResponseEntity<>(pessoaService.update(id, pessoaAtualizar), HttpStatus.OK);
+    public ResponseEntity<PessoaDTO> update(@PathVariable("idPessoa") Integer id,
+                                         @RequestBody PessoaDTO pessoaAtualizar) throws RegraDeNegocioException {
+        PessoaDTO pessoaAlterada = pessoaService.update(id, pessoaAtualizar);
+        return ResponseEntity.ok(pessoaAlterada);
     }
 
     @DeleteMapping("/{idPessoa}") // DELETE localhost:8080/pessoa/10
-    public ResponseEntity<Void> delete(@PathVariable("idPessoa") Integer id) throws Exception {
+    public ResponseEntity<Void> delete(@PathVariable("idPessoa") Integer id) throws RegraDeNegocioException {
         pessoaService.delete(id);
         return ResponseEntity.ok().build();
     }
+
 }

@@ -1,55 +1,79 @@
 package br.com.dbc.vemser.pessoaapi.service;
 
+import br.com.dbc.vemser.pessoaapi.dto.ContatoDTO;
+import br.com.dbc.vemser.pessoaapi.dto.EnderecoCreateDTO;
+import br.com.dbc.vemser.pessoaapi.dto.EnderecoDTO;
 import br.com.dbc.vemser.pessoaapi.entity.Contato;
 import br.com.dbc.vemser.pessoaapi.entity.Endereco;
 import br.com.dbc.vemser.pessoaapi.entity.Pessoa;
+import br.com.dbc.vemser.pessoaapi.exceptions.RegraDeNegocioException;
 import br.com.dbc.vemser.pessoaapi.repository.ContatoRepository;
 import br.com.dbc.vemser.pessoaapi.repository.EnderecoRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.Data;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@Data
 public class EnderecoService {
 
     private final EnderecoRepository enderecoRepository;
-
     private final PessoaService pessoaService;
+    private final ObjectMapper objectMapper;
 
-    public EnderecoService(EnderecoRepository enderecoRepository, PessoaService pessoaService) {
-        this.enderecoRepository = enderecoRepository;
-        this.pessoaService = pessoaService;
-    }
 
-    public Endereco create(Integer idPessoa, Endereco endereco) throws Exception{
-        Pessoa pessoa = pessoaService.getPessoa(idPessoa);
-        endereco.setIdPessoa(pessoa.getIdPessoa());
-        return enderecoRepository.create(endereco);
+    public EnderecoDTO create(Integer idPessoa, EnderecoCreateDTO endereco) throws RegraDeNegocioException {
+        if (pessoaService.getPessoa(idPessoa) != null) {
+            Endereco entity = objectMapper.convertValue(endereco, Endereco.class);
+            entity.setIdPessoa(idPessoa);
+
+            Endereco enderecoCriado = enderecoRepository.create(entity);
+            EnderecoDTO enderecoDTO = new EnderecoDTO();
+            enderecoDTO.setIdEndereco(enderecoCriado.getIdEndereco());
+            enderecoDTO.setCep(enderecoCriado.getCep());
+            enderecoDTO.setCidade(enderecoCriado.getCidade());
+            enderecoDTO.setEstado(enderecoCriado.getEstado());
+            enderecoDTO.setComplemento(enderecoCriado.getComplemento());
+            enderecoDTO.setNumero(enderecoCriado.getNumero());
+            enderecoDTO.setPais(enderecoCriado.getPais());
+            enderecoDTO.setLogradouro(enderecoCriado.getLogradouro());
+            enderecoDTO.setTipo(enderecoCriado.getTipo());
+            enderecoDTO.setIdPessoa(enderecoCriado.getIdPessoa());
+
+            return enderecoDTO;
+        } else {
+            return null;
+        }
     }
 
     public List<Endereco> list() {
         return enderecoRepository.list();
     }
 
-    public Endereco update(Integer id, Endereco enderecoAtualizar) throws Exception {
-        Endereco enderecoRecuperado = getEndereco(id);
-
-        enderecoRecuperado.setTipo(enderecoAtualizar.getTipo());
-        enderecoRecuperado.setIdPessoa(enderecoAtualizar.getIdPessoa());
-        enderecoRecuperado.setLogradouro(enderecoAtualizar.getLogradouro());
-        enderecoRecuperado.setNumero(enderecoAtualizar.getNumero());
-        enderecoRecuperado.setComplemento(enderecoAtualizar.getComplemento());
-        enderecoRecuperado.setCep(enderecoAtualizar.getCep());
-        enderecoRecuperado.setCidade(enderecoAtualizar.getCidade());
-        enderecoRecuperado.setEstado(enderecoAtualizar.getEstado());
-        enderecoRecuperado.setPais(enderecoAtualizar.getPais());
-
-        return enderecoRecuperado;
+    public EnderecoDTO update(Integer idEndereco, EnderecoDTO enderecoAtualizar) throws RegraDeNegocioException {
+        enderecoAtualizar.setIdEndereco(idEndereco);
+        Endereco entity = getEndereco(enderecoAtualizar.getIdEndereco());
+        if (entity != null) {
+            entity.setTipo(enderecoAtualizar.getTipo());
+            entity.setIdPessoa(enderecoAtualizar.getIdPessoa());
+            entity.setLogradouro(enderecoAtualizar.getLogradouro());
+            entity.setNumero(enderecoAtualizar.getNumero());
+            entity.setComplemento(enderecoAtualizar.getComplemento());
+            entity.setCep(enderecoAtualizar.getCep());
+            entity.setCidade(enderecoAtualizar.getCidade());
+            entity.setEstado(enderecoAtualizar.getEstado());
+            entity.setPais(enderecoAtualizar.getPais());
+        }
+        return enderecoAtualizar;
     }
 
-    public void delete(Integer id) throws Exception {
+    public void delete(Integer id) throws RegraDeNegocioException {
         Endereco enderecoRecuperado = getEndereco(id);
-        enderecoRepository.delete(enderecoRecuperado);
+        if (enderecoRecuperado != null) {
+            enderecoRepository.delete(enderecoRecuperado);
+        }
     }
 
     public List<Endereco> listByPessoa(Integer idPessoa) {
@@ -60,11 +84,11 @@ public class EnderecoService {
         return enderecoRepository.listByEndereco(idPessoa);
     }
 
-    private Endereco getEndereco(Integer id) throws Exception {
+    private Endereco getEndereco(Integer id) throws RegraDeNegocioException {
         Endereco enderecoRecuperado = enderecoRepository.list().stream()
                 .filter(endereco -> endereco.getIdEndereco().equals(id))
                 .findFirst()
-                .orElseThrow(() -> new Exception("Contato não encontrado!"));
+                .orElseThrow(() -> new RegraDeNegocioException("Contato não encontrado!"));
         return enderecoRecuperado;
     }
 }
