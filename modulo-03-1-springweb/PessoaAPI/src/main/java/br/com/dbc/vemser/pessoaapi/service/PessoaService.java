@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
 import java.util.List;
 
 @Service
@@ -18,6 +19,7 @@ public class PessoaService {
     // @Autowired
     private final PessoaRepository pessoaRepository;
     private final ObjectMapper objectMapper;
+    private final EmailService emailService;
 
 
     public PessoaDTO create(PessoaCreateDTO pessoa) throws RegraDeNegocioException {
@@ -27,7 +29,11 @@ public class PessoaService {
         entity.setDataNascimento(pessoa.getDataNascimento());
 
         Pessoa pessoa1 = pessoaRepository.create(entity);
-
+        try {
+            emailService.sendTemplateEmail(pessoa1);
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
         PessoaDTO pessoaDTO = new PessoaDTO();
         pessoaDTO.setIdPessoa(pessoa1.getIdPessoa());
         pessoaDTO.setDataNascimento(pessoa1.getDataNascimento());

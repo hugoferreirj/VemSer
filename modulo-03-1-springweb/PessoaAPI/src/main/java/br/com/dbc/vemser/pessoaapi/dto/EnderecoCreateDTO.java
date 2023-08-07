@@ -14,22 +14,29 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 public class EnderecoCreateDTO {
     private Integer idPessoa;
-    @NotNull
+    @NotNull(message = "O tipo de endereço não pode ser nulo")
     private TipoEndereco tipo;
-    @NotEmpty
-    @Size(max = 250)
+
+    @NotEmpty(message = "O logradouro não pode estar vazio")
+    @Size(max = 250, message = "O logradouro deve ter no máximo 250 caracteres")
     private String logradouro;
-    @NotNull
+
+    @NotNull(message = "O número não pode ser nulo")
     private Integer numero;
+
     private String complemento;
-    @NotEmpty
-    @Size(max = 8)
+
+    @NotEmpty(message = "O CEP não pode estar vazio")
+    @Size(max = 8, message = "O CEP deve ter no máximo 8 caracteres")
     private String cep;
-    @NotEmpty
-    @Size(max = 250)
+
+    @NotEmpty(message = "A cidade não pode estar vazia")
+    @Size(max = 250, message = "A cidade deve ter no máximo 250 caracteres")
     private String cidade;
-    @NotNull
+
+    @NotNull(message = "O estado não pode ser nulo")
     private String estado;
-    @NotNull
+
+    @NotNull(message = "O país não pode ser nulo")
     private String pais;
 }

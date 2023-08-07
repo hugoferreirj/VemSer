@@ -14,11 +14,14 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 public class ContatoCreateDTO {
     private Integer idPessoa;
-    @NotNull
+
+    @NotNull(message = "O tipo de contato não pode ser nulo")
     private TipoContato tipoContato;
-    @NotEmpty
-    @Size(min = 13, max = 13)
+
+    @NotEmpty(message = "O número do contato não pode estar vazio")
+    @Size(min = 13, max = 13, message = "O número do contato deve ter exatamente 13 caracteres")
     private String numero;
-    @NotEmpty
+
+    @NotEmpty(message = "A descrição do contato não pode estar vazia")
     private String descricao;
 }
