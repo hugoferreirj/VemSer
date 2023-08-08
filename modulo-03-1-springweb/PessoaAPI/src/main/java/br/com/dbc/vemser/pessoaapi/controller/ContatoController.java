@@ -1,9 +1,9 @@
 package br.com.dbc.vemser.pessoaapi.controller;
 
 
+import br.com.dbc.vemser.pessoaapi.documentacao.ContatoControllerDoc;
 import br.com.dbc.vemser.pessoaapi.dto.ContatoCreateDTO;
 import br.com.dbc.vemser.pessoaapi.dto.ContatoDTO;
-import br.com.dbc.vemser.pessoaapi.entity.Contato;
 import br.com.dbc.vemser.pessoaapi.exceptions.RegraDeNegocioException;
 import br.com.dbc.vemser.pessoaapi.service.ContatoService;
 import lombok.extern.java.Log;
@@ -19,7 +19,7 @@ import java.util.List;
 @RestController
 @Validated
 @RequestMapping("/contato") // localhost:8080/contato
-public class ContatoController {
+public class ContatoController implements ContatoControllerDoc {
     private final ContatoService contatoService;
 
     public ContatoController(ContatoService contatoService) {
@@ -27,13 +27,13 @@ public class ContatoController {
     }
 
     @GetMapping // GET localhost:8080/contato
-    public List<Contato> list() {
-        return contatoService.list();
+    public ResponseEntity<List<ContatoDTO>> list() {
+        return new ResponseEntity<>(contatoService.list(), HttpStatus.OK);
     }
 
     @GetMapping("/{idPessoa}") // GET localhost:8080/contato/{idPessoa}
-    public List<Contato> listByPessoa(@PathVariable("idPessoa") Integer id) {
-        return contatoService.listByPessoa(id);
+    public ResponseEntity<List<ContatoDTO>> listByPessoa(@PathVariable("idPessoa") Integer id) {
+        return new ResponseEntity<>(contatoService.listByPessoa(id), HttpStatus.OK);
     }
 
     @PostMapping("/{idPessoa}") // POST localhost:8080/contato/{idPessoa}
@@ -44,7 +44,7 @@ public class ContatoController {
 
     @PutMapping("/{idContato}") // PUT localhost:8080/contato/{idContato}
     public ResponseEntity<ContatoDTO> update(@PathVariable("idContato") Integer id,
-                          @Valid @RequestBody ContatoDTO contatoAtualizar) throws RegraDeNegocioException {
+                                             @Valid @RequestBody ContatoDTO contatoAtualizar) throws RegraDeNegocioException {
         log.info("Editar contato");
         return new ResponseEntity<>(contatoService.update(id, contatoAtualizar), HttpStatus.OK);
     }

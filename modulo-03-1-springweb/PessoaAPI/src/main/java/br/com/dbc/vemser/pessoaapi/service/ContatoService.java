@@ -2,6 +2,7 @@ package br.com.dbc.vemser.pessoaapi.service;
 
 import br.com.dbc.vemser.pessoaapi.dto.ContatoCreateDTO;
 import br.com.dbc.vemser.pessoaapi.dto.ContatoDTO;
+import br.com.dbc.vemser.pessoaapi.dto.PessoaDTO;
 import br.com.dbc.vemser.pessoaapi.entity.Contato;
 import br.com.dbc.vemser.pessoaapi.entity.Pessoa;
 import br.com.dbc.vemser.pessoaapi.exceptions.RegraDeNegocioException;
@@ -12,6 +13,7 @@ import lombok.Data;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Data
@@ -28,12 +30,13 @@ public class ContatoService {
             entity.setIdPessoa(idPessoa);
 
             Contato contatoCriado = contatoRepository.create(entity);
-            ContatoDTO contatoDTO = new ContatoDTO();
-            contatoDTO.setIdContato(contatoCriado.getIdContato());
-            contatoDTO.setTipoContato(contatoCriado.getTipoContato());
-            contatoDTO.setNumero(contatoCriado.getNumero());
-            contatoDTO.setIdPessoa(contatoCriado.getIdPessoa());
-            contatoDTO.setDescricao(contatoCriado.getDescricao());
+            ContatoDTO contatoDTO = objectMapper.convertValue(contatoCriado, ContatoDTO.class);
+//            ContatoDTO contatoDTO = new ContatoDTO();
+//            contatoDTO.setIdContato(contatoCriado.getIdContato());
+//            contatoDTO.setTipoContato(contatoCriado.getTipoContato());
+//            contatoDTO.setNumero(contatoCriado.getNumero());
+//            contatoDTO.setIdPessoa(contatoCriado.getIdPessoa());
+//            contatoDTO.setDescricao(contatoCriado.getDescricao());
 
             return contatoDTO;
         } else {
@@ -41,8 +44,10 @@ public class ContatoService {
         }
     }
 
-    public List<Contato> list() {
-        return contatoRepository.list();
+    public List<ContatoDTO> list() {
+        return contatoRepository.list().stream()
+                .map(contato -> objectMapper.convertValue(contato, ContatoDTO.class))
+                .collect(Collectors.toList());
     }
 
     public ContatoDTO update(Integer idContato,
@@ -65,8 +70,10 @@ public class ContatoService {
         }
     }
 
-    public List<Contato> listByPessoa(Integer idPessoa) {
-        return contatoRepository.listByPessoa(idPessoa);
+    public List<ContatoDTO> listByPessoa(Integer idPessoa) {
+        return contatoRepository.listByPessoa(idPessoa).stream()
+                .map(contato -> objectMapper.convertValue(contato, ContatoDTO.class))
+                .collect(Collectors.toList());
     }
 
     private Contato getContato(Integer id) throws RegraDeNegocioException {

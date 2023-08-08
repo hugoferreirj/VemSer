@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Data
@@ -34,17 +35,21 @@ public class PessoaService {
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }
-        PessoaDTO pessoaDTO = new PessoaDTO();
-        pessoaDTO.setIdPessoa(pessoa1.getIdPessoa());
-        pessoaDTO.setDataNascimento(pessoa1.getDataNascimento());
-        pessoaDTO.setCpf(pessoa1.getCpf());
-        pessoaDTO.setNome(pessoa1.getNome());
+//        PessoaDTO pessoaDTO = new PessoaDTO();
+//        pessoaDTO.setIdPessoa(pessoa1.getIdPessoa());
+//        pessoaDTO.setDataNascimento(pessoa1.getDataNascimento());
+//        pessoaDTO.setCpf(pessoa1.getCpf());
+//        pessoaDTO.setNome(pessoa1.getNome());
+        PessoaDTO pessoaDTO = objectMapper.convertValue(pessoa1, PessoaDTO.class);
 
         return pessoaDTO;
     }
 
-    public List<Pessoa> list() {
-        return pessoaRepository.list();
+    public List<PessoaDTO> list() {
+        return pessoaRepository.list()
+                .stream()
+                .map(pessoa -> objectMapper.convertValue(pessoa, PessoaDTO.class))
+                .collect(Collectors.toList());
     }
 
     public PessoaDTO update(Integer idPessoa,
@@ -66,8 +71,10 @@ public class PessoaService {
         }
     }
 
-    public List<Pessoa> listByName(String nome) {
-        return pessoaRepository.listByName(nome);
+    public List<PessoaDTO> listByName(String nome) {
+        return pessoaRepository.listByName(nome).stream()
+                .map(pessoa -> objectMapper.convertValue(pessoa, PessoaDTO.class))
+                .collect(Collectors.toList());
     }
 
     public Pessoa getPessoa(Integer id) throws RegraDeNegocioException {

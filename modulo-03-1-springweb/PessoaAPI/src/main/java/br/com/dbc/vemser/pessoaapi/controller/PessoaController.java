@@ -1,5 +1,6 @@
 package br.com.dbc.vemser.pessoaapi.controller;
 
+import br.com.dbc.vemser.pessoaapi.documentacao.PessoaControllerDoc;
 import br.com.dbc.vemser.pessoaapi.dto.PessoaCreateDTO;
 import br.com.dbc.vemser.pessoaapi.dto.PessoaDTO;
 import br.com.dbc.vemser.pessoaapi.entity.Pessoa;
@@ -19,7 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/pessoa") // localhost:8080/pessoa
 @Slf4j
-public class PessoaController {
+public class PessoaController implements PessoaControllerDoc {
 
     // Modelo ANTIGO de Injeção
     // @Autowired
@@ -47,13 +48,13 @@ public class PessoaController {
     }
 
     @GetMapping // GET localhost:8080/pessoa
-    public List<Pessoa> list() {
-        return pessoaService.list();
+    public ResponseEntity<List<PessoaDTO>> list() {
+        return new ResponseEntity<>(pessoaService.list(), HttpStatus.OK);
     }
 
     @GetMapping("/byname") // GET localhost:8080/pessoa/byname?nome=Rafa
-    public List<Pessoa> listByName(@RequestParam("nome") String nome) {
-        return pessoaService.listByName(nome);
+    public ResponseEntity<List<PessoaDTO>> listByName(@RequestParam("nome") String nome) {
+        return new ResponseEntity<>(pessoaService.listByName(nome), HttpStatus.OK);
     }
 
     @PostMapping // POST localhost:8080/pessoa

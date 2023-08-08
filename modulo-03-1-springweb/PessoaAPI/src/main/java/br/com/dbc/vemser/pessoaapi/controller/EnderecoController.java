@@ -1,6 +1,7 @@
 package br.com.dbc.vemser.pessoaapi.controller;
 
 
+import br.com.dbc.vemser.pessoaapi.documentacao.EnderecoControllerDoc;
 import br.com.dbc.vemser.pessoaapi.dto.EnderecoCreateDTO;
 import br.com.dbc.vemser.pessoaapi.dto.EnderecoDTO;
 import br.com.dbc.vemser.pessoaapi.entity.Endereco;
@@ -19,7 +20,7 @@ import java.util.List;
 @RestController
 @Validated
 @RequestMapping("/endereco") // localhost:8080/endereco
-public class EnderecoController {
+public class EnderecoController implements EnderecoControllerDoc {
     private final EnderecoService enderecoService;
 
     public EnderecoController(EnderecoService enderecoService) {
@@ -27,18 +28,18 @@ public class EnderecoController {
     }
 
     @GetMapping // GET localhost:8080/endereco
-    public List<Endereco> list() {
-        return enderecoService.list();
+    public ResponseEntity<List<EnderecoDTO>> list() {
+        return new ResponseEntity<>(enderecoService.list(), HttpStatus.OK);
     }
 
     @GetMapping("/{idPessoa}/pessoa") // GET localhost:8080/contato/{idPessoa}
-    public List<Endereco> listByPessoa(@PathVariable("idPessoa") Integer id) {
-        return enderecoService.listByPessoa(id);
+    public ResponseEntity<List<EnderecoDTO>> listByPessoa(@PathVariable("idPessoa") Integer id) {
+        return new ResponseEntity<>(enderecoService.listByPessoa(id), HttpStatus.OK);
     }
 
     @GetMapping("/{idEndereco}") // GET localhost:8080/endereco/{idPessoa}
-    public List<Endereco> listByEndereco(@PathVariable("idEndereco") Integer id) {
-        return enderecoService.listByEndereco(id);
+    public ResponseEntity<List<EnderecoDTO>> listByEndereco(@PathVariable("idEndereco") Integer id) {
+        return new ResponseEntity<>(enderecoService.listByEndereco(id), HttpStatus.OK);
     }
 
     @PostMapping("/{idPessoa}") // POST localhost:8080/endereco/{idPessoa}
@@ -49,7 +50,7 @@ public class EnderecoController {
 
     @PutMapping("/{idEndereco}") // PUT localhost:8080/endereco/{idEndereco}
     public ResponseEntity<EnderecoDTO> update(@PathVariable("idEndereco") Integer id,
-                                           @Valid @RequestBody EnderecoDTO enderecoAtualizar) throws RegraDeNegocioException {
+                                              @Valid @RequestBody EnderecoDTO enderecoAtualizar) throws RegraDeNegocioException {
         log.info("Editar endereço");
         return new ResponseEntity<>(enderecoService.update(id, enderecoAtualizar), HttpStatus.OK);
     }

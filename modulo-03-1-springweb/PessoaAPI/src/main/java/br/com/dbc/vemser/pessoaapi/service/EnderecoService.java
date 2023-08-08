@@ -3,6 +3,7 @@ package br.com.dbc.vemser.pessoaapi.service;
 import br.com.dbc.vemser.pessoaapi.dto.ContatoDTO;
 import br.com.dbc.vemser.pessoaapi.dto.EnderecoCreateDTO;
 import br.com.dbc.vemser.pessoaapi.dto.EnderecoDTO;
+import br.com.dbc.vemser.pessoaapi.dto.PessoaDTO;
 import br.com.dbc.vemser.pessoaapi.entity.Contato;
 import br.com.dbc.vemser.pessoaapi.entity.Endereco;
 import br.com.dbc.vemser.pessoaapi.entity.Pessoa;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Data
@@ -42,17 +44,18 @@ public class EnderecoService {
             }
 
             Endereco enderecoCriado = enderecoRepository.create(entity);
-            EnderecoDTO enderecoDTO = new EnderecoDTO();
-            enderecoDTO.setIdEndereco(enderecoCriado.getIdEndereco());
-            enderecoDTO.setCep(enderecoCriado.getCep());
-            enderecoDTO.setCidade(enderecoCriado.getCidade());
-            enderecoDTO.setEstado(enderecoCriado.getEstado());
-            enderecoDTO.setComplemento(enderecoCriado.getComplemento());
-            enderecoDTO.setNumero(enderecoCriado.getNumero());
-            enderecoDTO.setPais(enderecoCriado.getPais());
-            enderecoDTO.setLogradouro(enderecoCriado.getLogradouro());
-            enderecoDTO.setTipo(enderecoCriado.getTipo());
-            enderecoDTO.setIdPessoa(enderecoCriado.getIdPessoa());
+            EnderecoDTO enderecoDTO = objectMapper.convertValue(enderecoCriado, EnderecoDTO.class);
+//            EnderecoDTO enderecoDTO = new EnderecoDTO();
+//            enderecoDTO.setIdEndereco(enderecoCriado.getIdEndereco());
+//            enderecoDTO.setCep(enderecoCriado.getCep());
+//            enderecoDTO.setCidade(enderecoCriado.getCidade());
+//            enderecoDTO.setEstado(enderecoCriado.getEstado());
+//            enderecoDTO.setComplemento(enderecoCriado.getComplemento());
+//            enderecoDTO.setNumero(enderecoCriado.getNumero());
+//            enderecoDTO.setPais(enderecoCriado.getPais());
+//            enderecoDTO.setLogradouro(enderecoCriado.getLogradouro());
+//            enderecoDTO.setTipo(enderecoCriado.getTipo());
+//            enderecoDTO.setIdPessoa(enderecoCriado.getIdPessoa());
 
             return enderecoDTO;
         } else {
@@ -60,8 +63,10 @@ public class EnderecoService {
         }
     }
 
-    public List<Endereco> list() {
-        return enderecoRepository.list();
+    public List<EnderecoDTO> list() {
+        return enderecoRepository.list().stream()
+                .map(endereco -> objectMapper.convertValue(endereco, EnderecoDTO.class))
+                .collect(Collectors.toList());
     }
 
     public EnderecoDTO update(Integer idEndereco, EnderecoDTO enderecoAtualizar) throws RegraDeNegocioException {
@@ -102,12 +107,16 @@ public class EnderecoService {
         }
     }
 
-    public List<Endereco> listByPessoa(Integer idPessoa) {
-        return enderecoRepository.listByPessoa(idPessoa);
+    public List<EnderecoDTO> listByPessoa(Integer idPessoa) {
+        return enderecoRepository.listByPessoa(idPessoa).stream()
+                .map(endereco -> objectMapper.convertValue(endereco, EnderecoDTO.class))
+                .collect(Collectors.toList());
     }
 
-    public List<Endereco> listByEndereco(Integer idPessoa) {
-        return enderecoRepository.listByEndereco(idPessoa);
+    public List<EnderecoDTO> listByEndereco(Integer idPessoa) {
+        return enderecoRepository.listByEndereco(idPessoa).stream()
+                .map(endereco -> objectMapper.convertValue(endereco, EnderecoDTO.class))
+                .collect(Collectors.toList());
     }
 
     private Endereco getEndereco(Integer id) throws RegraDeNegocioException {

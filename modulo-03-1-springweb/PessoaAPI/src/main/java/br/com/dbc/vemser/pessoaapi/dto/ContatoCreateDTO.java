@@ -1,6 +1,7 @@
 package br.com.dbc.vemser.pessoaapi.dto;
 
 import br.com.dbc.vemser.pessoaapi.entity.TipoContato;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,15 +14,19 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ContatoCreateDTO {
+    @Schema(description = "ID da Pessoa associada a este contato")
     private Integer idPessoa;
 
     @NotNull(message = "O tipo de contato não pode ser nulo")
+    @Schema(description = "Tipo de contato", required = true, example = "COMERCIAL")
     private TipoContato tipoContato;
 
     @NotEmpty(message = "O número do contato não pode estar vazio")
     @Size(min = 13, max = 13, message = "O número do contato deve ter exatamente 13 caracteres")
+    @Schema(description = "Número do contato (13 caracteres)", required = true, example = "5512345678901")
     private String numero;
 
     @NotEmpty(message = "A descrição do contato não pode estar vazia")
+    @Schema(description = "Descrição do contato", required = true, example = "Contato principal")
     private String descricao;
 }
