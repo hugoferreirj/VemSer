@@ -66,7 +66,7 @@ public class EmailService {
     try {
 
       helper.setFrom(from);
-      helper.setTo("huugo.vieira49@gmail.com");
+      helper.setTo(pessoa.getEmail());
       helper.setSubject("email a partir de template");
       helper.setText(getContentFromTemplateExercicio1(pessoa), true);
 
