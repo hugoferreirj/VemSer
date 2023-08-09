@@ -1,22 +1,16 @@
 package br.com.dbc.vemser.pessoaapi.service;
 
-import br.com.dbc.vemser.pessoaapi.dto.ContatoDTO;
 import br.com.dbc.vemser.pessoaapi.dto.EnderecoCreateDTO;
 import br.com.dbc.vemser.pessoaapi.dto.EnderecoDTO;
-import br.com.dbc.vemser.pessoaapi.dto.PessoaDTO;
-import br.com.dbc.vemser.pessoaapi.entity.Contato;
 import br.com.dbc.vemser.pessoaapi.entity.Endereco;
 import br.com.dbc.vemser.pessoaapi.entity.Pessoa;
 import br.com.dbc.vemser.pessoaapi.exceptions.RegraDeNegocioException;
-import br.com.dbc.vemser.pessoaapi.repository.ContatoRepository;
 import br.com.dbc.vemser.pessoaapi.repository.EnderecoRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import freemarker.template.TemplateException;
 import lombok.Data;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
-import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,7 +32,7 @@ public class EnderecoService {
 
 
             try {
-                emailService.enviarEmailSobreEndereçoUtilizandoTemplate(pessoa, "Um endereço foi criado e associado a sua conta!");
+                emailService.enviarEmailSobreEnderecoUtilizandoTemplate(pessoa, "Um endereço foi criado e associado a sua conta!");
             } catch (MessagingException e) {
                 throw new RuntimeException(e);
             }
@@ -86,7 +80,7 @@ public class EnderecoService {
             Pessoa pessoa = pessoaService.getPessoa(entity.getIdPessoa());
 
             try {
-                emailService.enviarEmailSobreEndereçoUtilizandoTemplate(pessoa, "O endereço " + idEndereco + " associado à sua conta foi alterado!");
+                emailService.enviarEmailSobreEnderecoUtilizandoTemplate(pessoa, "O endereço " + idEndereco + " associado à sua conta foi alterado!");
             } catch (MessagingException e) {
                 throw new RuntimeException(e);
             }
@@ -100,7 +94,7 @@ public class EnderecoService {
             enderecoRepository.delete(enderecoRecuperado);
             Pessoa pessoa = pessoaService.getPessoa(enderecoRecuperado.getIdPessoa());
             try {
-                emailService.enviarEmailSobreEndereçoUtilizandoTemplate(pessoa, "O endereço " + id + " associado à sua conta foi excluido!");
+                emailService.enviarEmailSobreEnderecoUtilizandoTemplate(pessoa, "O endereço " + id + " associado à sua conta foi excluido!");
             } catch (MessagingException e) {
                 throw new RuntimeException(e);
             }

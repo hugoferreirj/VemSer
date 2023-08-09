@@ -4,9 +4,7 @@ import br.com.dbc.vemser.pessoaapi.entity.Pessoa;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.SimpleMailMessage;
@@ -77,7 +75,7 @@ public class EmailService {
     }
   }
 
-  public void enviarEmailSobreEndereçoUtilizandoTemplate(Pessoa pessoa, String mensagem) throws MessagingException {
+  public void enviarEmailSobreEnderecoUtilizandoTemplate(Pessoa pessoa, String mensagem) throws MessagingException {
     MimeMessage emailTemplate = mailSender.createMimeMessage();
     MimeMessageHelper helper = new MimeMessageHelper(emailTemplate, true);
 
