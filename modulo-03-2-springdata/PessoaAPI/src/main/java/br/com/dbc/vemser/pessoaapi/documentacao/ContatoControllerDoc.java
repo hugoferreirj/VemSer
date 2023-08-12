@@ -2,6 +2,7 @@ package br.com.dbc.vemser.pessoaapi.documentacao;
 
 import br.com.dbc.vemser.pessoaapi.dto.ContatoCreateDTO;
 import br.com.dbc.vemser.pessoaapi.dto.ContatoDTO;
+import br.com.dbc.vemser.pessoaapi.exceptions.EntidadeNaoEncontradaException;
 import br.com.dbc.vemser.pessoaapi.exceptions.RegraDeNegocioException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -34,7 +35,7 @@ public interface ContatoControllerDoc {
             }
     )
     @GetMapping("/{idPessoa}") // GET localhost:8080/contato/{idPessoa}
-    public ResponseEntity<List<ContatoDTO>> listByPessoa(@PathVariable("idPessoa") Integer id);
+    public ResponseEntity<List<ContatoDTO>> listByPessoa(@PathVariable("idPessoa") Integer id) throws EntidadeNaoEncontradaException;
 
     @Operation(summary = "Criar contato", description = "Cria um novo contato associado a uma pessoa pelo ID")
     @ApiResponses(

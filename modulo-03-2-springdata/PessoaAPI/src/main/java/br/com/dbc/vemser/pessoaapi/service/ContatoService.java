@@ -3,6 +3,8 @@ package br.com.dbc.vemser.pessoaapi.service;
 import br.com.dbc.vemser.pessoaapi.dto.ContatoCreateDTO;
 import br.com.dbc.vemser.pessoaapi.dto.ContatoDTO;
 import br.com.dbc.vemser.pessoaapi.entity.ContatoEntity;
+import br.com.dbc.vemser.pessoaapi.entity.PessoaEntity;
+import br.com.dbc.vemser.pessoaapi.exceptions.EntidadeNaoEncontradaException;
 import br.com.dbc.vemser.pessoaapi.exceptions.RegraDeNegocioException;
 import br.com.dbc.vemser.pessoaapi.repository.ContatoRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -64,10 +66,9 @@ public class ContatoService {
         }
     }
 
-    public List<ContatoDTO> listByPessoa(Integer idPessoa) {
-        return contatoRepository.findAll().stream()
-                .filter(contato -> contato.getPessoaEntity().getIdPessoa() == idPessoa)
-                .map(this::retornarDTO)
+    public List<ContatoDTO> listByPessoa(Integer idPessoa) throws EntidadeNaoEncontradaException {
+        return contatoRepository.findByPessoaEntity(pessoaService.returnPersonById(idPessoa)).stream()
+                .map(contato -> objectMapper.convertValue(contato, ContatoDTO.class))
                 .collect(Collectors.toList());
     }
 
@@ -80,4 +81,5 @@ public class ContatoService {
     public ContatoDTO retornarDTO(ContatoEntity entity) {
         return objectMapper.convertValue(entity, ContatoDTO.class);
     }
+
 }

@@ -4,6 +4,7 @@ package br.com.dbc.vemser.pessoaapi.controller;
 import br.com.dbc.vemser.pessoaapi.documentacao.ContatoControllerDoc;
 import br.com.dbc.vemser.pessoaapi.dto.ContatoCreateDTO;
 import br.com.dbc.vemser.pessoaapi.dto.ContatoDTO;
+import br.com.dbc.vemser.pessoaapi.exceptions.EntidadeNaoEncontradaException;
 import br.com.dbc.vemser.pessoaapi.exceptions.RegraDeNegocioException;
 import br.com.dbc.vemser.pessoaapi.service.ContatoService;
 import lombok.extern.java.Log;
@@ -32,7 +33,7 @@ public class ContatoController implements ContatoControllerDoc {
     }
 
     @GetMapping("/{idPessoa}") // GET localhost:8080/contato/{idPessoa}
-    public ResponseEntity<List<ContatoDTO>> listByPessoa(@PathVariable("idPessoa") Integer id) {
+    public ResponseEntity<List<ContatoDTO>> listByPessoa(@PathVariable("idPessoa") Integer id) throws EntidadeNaoEncontradaException {
         return new ResponseEntity<>(contatoService.listByPessoa(id), HttpStatus.OK);
     }
 
@@ -55,6 +56,8 @@ public class ContatoController implements ContatoControllerDoc {
         contatoService.delete(id);
         return ResponseEntity.ok().build();
     }
+
+
 
 
 }
