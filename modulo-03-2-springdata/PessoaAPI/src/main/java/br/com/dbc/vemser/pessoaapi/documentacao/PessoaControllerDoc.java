@@ -75,4 +75,5 @@ public interface PessoaControllerDoc {
     public ResponseEntity<Void> delete(@PathVariable("idPessoa") Integer id) throws RegraDeNegocioException;
 
 
+
 }

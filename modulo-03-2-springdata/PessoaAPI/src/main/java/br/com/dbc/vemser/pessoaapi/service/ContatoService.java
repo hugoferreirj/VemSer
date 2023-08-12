@@ -24,7 +24,8 @@ public class ContatoService {
     public ContatoDTO create(ContatoCreateDTO contato, Integer idPessoa) throws RegraDeNegocioException {
         if (pessoaService.findById(idPessoa) != null) {
             ContatoEntity entity = objectMapper.convertValue(contato, ContatoEntity.class);
-            entity.setIdPessoa(idPessoa);
+//            entity.setIdPessoa(idPessoa);
+            entity.setPessoaEntity(pessoaService.findById(idPessoa));
 
             ContatoEntity contatoCriado = contatoRepository.save(entity);
             ContatoDTO contatoDTO = objectMapper.convertValue(contatoCriado, ContatoDTO.class);
@@ -47,7 +48,8 @@ public class ContatoService {
         ContatoEntity entity = getContato(contatoAtualizar.getIdContato());
         if (entity != null) {
             entity.setTipoContato(contatoAtualizar.getTipoContato());
-            entity.setIdPessoa(contatoAtualizar.getIdPessoa());
+//            entity.setIdPessoa(contatoAtualizar.getIdPessoa());
+            entity.setPessoaEntity(contatoAtualizar.getPessoaEntity());
             entity.setDescricao(contatoAtualizar.getDescricao());
             entity.setNumero(contatoAtualizar.getNumero());
             contatoRepository.save((entity));
@@ -64,7 +66,7 @@ public class ContatoService {
 
     public List<ContatoDTO> listByPessoa(Integer idPessoa) {
         return contatoRepository.findAll().stream()
-                .filter(contato -> contato.getIdPessoa() == idPessoa)
+                .filter(contato -> contato.getPessoaEntity().getIdPessoa() == idPessoa)
                 .map(this::retornarDTO)
                 .collect(Collectors.toList());
     }

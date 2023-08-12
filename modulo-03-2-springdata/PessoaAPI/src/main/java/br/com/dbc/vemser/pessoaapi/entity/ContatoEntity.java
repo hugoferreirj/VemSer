@@ -1,5 +1,6 @@
 package br.com.dbc.vemser.pessoaapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -19,8 +20,13 @@ public class ContatoEntity {
     @Column(name = "id_contato")
     private Integer idContato;
 
-    @Column(name = "id_pessoa")
-    private Integer idPessoa;
+//    @Column(name = "id_pessoa")
+//    private Integer idPessoa;
+
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_pessoa", referencedColumnName = "id_pessoa")
+    private PessoaEntity pessoaEntity;
 
     @NotNull(message = "O tipo de contato não pode ser nulo")
     @Column(name = "tipo")
@@ -31,8 +37,8 @@ public class ContatoEntity {
     @Column(name = "numero")
     private String numero;
 
-
     @NotEmpty(message = "A descrição do contato não pode estar vazia")
     @Column(name = "descricao")
     private String descricao;
+
 }

@@ -1,5 +1,6 @@
 package br.com.dbc.vemser.pessoaapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.validator.constraints.br.CPF;
 
@@ -9,6 +10,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -39,4 +41,17 @@ public class PessoaEntity {
     @Email(message = "O email deve ser válido")
     @Column(name = "email")
     private String email;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "Pessoa_X_Pessoa_Endereco",
+            joinColumns = @JoinColumn(name = "id_pessoa"),
+            inverseJoinColumns = @JoinColumn(name = "id_endereco")
+    )
+    private Set<EnderecoEntity> enderecos;
+
+    @OneToMany(mappedBy = "pessoaEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<ContatoEntity> contatos;
+
+    @OneToOne(mappedBy = "pessoaEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+    private PetEntity pet;
 }

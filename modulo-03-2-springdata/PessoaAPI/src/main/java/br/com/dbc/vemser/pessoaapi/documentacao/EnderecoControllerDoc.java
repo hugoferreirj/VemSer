@@ -24,16 +24,16 @@ public interface EnderecoControllerDoc {
     @GetMapping // GET localhost:8080/endereco
     public ResponseEntity<List<EnderecoDTO>> list();
 
-    @Operation(summary = "Listar endereços de uma pessoa", description = "Lista todos os endereços de uma pessoa utilizando id da pessoa")
-    @ApiResponses(
-            value = {
-                    @ApiResponse(responseCode = "200", description = "Retorna a lista de endereços de uma pessoa"),
-                    @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
-                    @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
-            }
-    )
-    @GetMapping("/{idPessoa}/pessoa") // GET localhost:8080/contato/{idPessoa}
-    public ResponseEntity<List<EnderecoDTO>> listByPessoa(@PathVariable("idPessoa") Integer id);
+//    @Operation(summary = "Listar endereços de uma pessoa", description = "Lista todos os endereços de uma pessoa utilizando id da pessoa")
+//    @ApiResponses(
+//            value = {
+//                    @ApiResponse(responseCode = "200", description = "Retorna a lista de endereços de uma pessoa"),
+//                    @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
+//                    @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
+//            }
+//    )
+//    @GetMapping("/{idPessoa}/pessoa") // GET localhost:8080/contato/{idPessoa}
+//    public ResponseEntity<List<EnderecoDTO>> listByPessoa(@PathVariable("idPessoa") Integer id);
 
 //    @Operation(summary = "Retornar um endereço pelo ID", description = "Retorna um endereço pelo ID")
 //    @ApiResponses(
@@ -46,7 +46,18 @@ public interface EnderecoControllerDoc {
 //    @GetMapping("/{idEndereco}") // GET localhost:8080/endereco/{idPessoa}
 //    public ResponseEntity<List<EnderecoDTO>> listByEndereco(@PathVariable("idEndereco") Integer id);
 
-    @Operation(summary = "Criar um novo endereço", description = "Cria um endereço associado a uma pessoa pelo ID da pessoa")
+//    @Operation(summary = "Criar um novo endereço", description = "Cria um endereço associado a uma pessoa pelo ID da pessoa")
+//    @ApiResponses(
+//            value = {
+//                    @ApiResponse(responseCode = "200", description = "Cria um novo endereço"),
+//                    @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
+//                    @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
+//            }
+//    )
+//    @PostMapping("/{idPessoa}") // POST localhost:8080/endereco/{idPessoa}
+//    public ResponseEntity<EnderecoDTO> create(@PathVariable("idPessoa") Integer id, @Valid @RequestBody EnderecoCreateDTO endereco) throws Exception;
+
+    @Operation(summary = "Criar um novo endereço", description = "Cria um endereço")
     @ApiResponses(
             value = {
                     @ApiResponse(responseCode = "200", description = "Cria um novo endereço"),
@@ -54,8 +65,8 @@ public interface EnderecoControllerDoc {
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
     )
-    @PostMapping("/{idPessoa}") // POST localhost:8080/endereco/{idPessoa}
-    public ResponseEntity<EnderecoDTO> create(@PathVariable("idPessoa") Integer id, @Valid @RequestBody EnderecoCreateDTO endereco) throws Exception;
+    @PostMapping
+    public ResponseEntity<EnderecoDTO> create(@Valid @RequestBody EnderecoCreateDTO endereco) throws Exception;
 
     @Operation(summary = "Editar um endereço", description = "Edita um endereço pelo ID")
     @ApiResponses(

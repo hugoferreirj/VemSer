@@ -1,11 +1,13 @@
 package br.com.dbc.vemser.pessoaapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -20,7 +22,7 @@ public class EnderecoEntity {
     private Integer idEndereco;
 
     //@Column(name = "id_pessoa")
-    private Integer idPessoa;
+//    private Integer idPessoa;
 
     @NotNull(message = "O tipo de endereço não pode ser nulo")
     @Column(name = "tipo")
@@ -55,4 +57,8 @@ public class EnderecoEntity {
     @NotNull(message = "O país não pode ser nulo")
     @Column(name = "pais")
     private String pais;
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "enderecos")
+    private Set<PessoaEntity> pessoas;
 }

@@ -60,12 +60,12 @@ public class PessoaController implements PessoaControllerDoc {
     @PostMapping // POST localhost:8080/pessoa
     public ResponseEntity<PessoaDTO> create(@Valid @RequestBody PessoaCreateDTO pessoa) throws RegraDeNegocioException {
         log.info("criando pessoa");
-        return new ResponseEntity<>(pessoaService.create(pessoa) , HttpStatus.OK);
+        return new ResponseEntity<>(pessoaService.create(pessoa), HttpStatus.OK);
     }
 
     @PutMapping("/{idPessoa}") // PUT localhost:8080/pessoa/1000
     public ResponseEntity<PessoaDTO> update(@PathVariable("idPessoa") Integer id,
-                                         @RequestBody PessoaDTO pessoaAtualizar) throws RegraDeNegocioException, EntidadeNaoEncontradaException {
+                                            @RequestBody PessoaDTO pessoaAtualizar) throws RegraDeNegocioException, EntidadeNaoEncontradaException {
         PessoaDTO pessoaAlterada = pessoaService.update(id, pessoaAtualizar);
         return ResponseEntity.ok(pessoaAlterada);
     }
@@ -75,5 +75,41 @@ public class PessoaController implements PessoaControllerDoc {
         pessoaService.delete(id);
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("/byname-contains") // GET localhost:8080/pessoa/byname?nome=Rafa
+    public ResponseEntity<List<PessoaDTO>> findAllByNomeContains(@RequestParam("nome") String nome) {
+        return ResponseEntity.ok(pessoaService.findAllByNomeContains(nome));
+    }
+
+    @GetMapping("/listar-com-pets")
+    public ResponseEntity<List<PessoaDTO>> findByPetIsNotNull() {
+        return ResponseEntity.ok(pessoaService.findByPetIsNotNull());
+    }
+
+    @GetMapping("/listar-com-pets/{idPessoa}")
+    public ResponseEntity<PessoaDTO> findByIdPessoaAndPetIsNotNull(@PathVariable("idPessoa") Integer id) throws RegraDeNegocioException {
+        return ResponseEntity.ok(pessoaService.findByIdPessoaAndPetIsNotNull(id));
+    }
+
+    @GetMapping("/listar-com-contatos")
+    public ResponseEntity<List<PessoaDTO>> findByContatosIsNotNull() {
+        return ResponseEntity.ok(pessoaService.findByContatosIsNotNull());
+    }
+
+    @GetMapping("/listar-com-contatos/{idPessoa}")
+    public ResponseEntity<PessoaDTO> findByIdPessoaAndContatosIsNotNull(@PathVariable("idPessoa") Integer id) throws RegraDeNegocioException {
+        return ResponseEntity.ok(pessoaService.findByIdPessoaAndContatosIsNotNull(id));
+    }
+
+    @GetMapping("/listar-com-enderecos")
+    public ResponseEntity<List<PessoaDTO>> findByEnderecosIsNotNull() {
+        return ResponseEntity.ok(pessoaService.findByEnderecosIsNotNull());
+    }
+
+    @GetMapping("/listar-com-enderecos/{idPessoa}")
+    public ResponseEntity<PessoaDTO> findByIdPessoaAndEnderecosIsNotNull(@PathVariable("idPessoa") Integer id) throws RegraDeNegocioException {
+        return ResponseEntity.ok(pessoaService.findByIdPessoaAndEnderecosIsNotNull(id));
+    }
+
 
 }

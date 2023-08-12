@@ -1,6 +1,8 @@
 package br.com.dbc.vemser.pessoaapi.dto;
 
+import br.com.dbc.vemser.pessoaapi.entity.PessoaEntity;
 import br.com.dbc.vemser.pessoaapi.entity.TipoEndereco;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,6 +11,7 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -50,4 +53,7 @@ public class EnderecoCreateDTO {
     @NotNull(message = "O país não pode ser nulo")
     @Schema(description = "País do endereço", required = true, example = "Brasil")
     private String pais;
+
+    @JsonIgnore
+    private Set<PessoaEntity> pessoas;
 }

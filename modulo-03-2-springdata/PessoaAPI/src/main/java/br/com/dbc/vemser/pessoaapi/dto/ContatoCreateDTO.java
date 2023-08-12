@@ -1,6 +1,8 @@
 package br.com.dbc.vemser.pessoaapi.dto;
 
+import br.com.dbc.vemser.pessoaapi.entity.PessoaEntity;
 import br.com.dbc.vemser.pessoaapi.entity.TipoContato;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,8 +16,11 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ContatoCreateDTO {
-    @Schema(description = "ID da Pessoa associada a este contato")
-    private Integer idPessoa;
+//    @Schema(description = "ID da Pessoa associada a este contato")
+//    private Integer idPessoa;
+
+    @JsonIgnore
+    private PessoaEntity pessoaEntity;
 
     @NotNull(message = "O tipo de contato não pode ser nulo")
     @Schema(description = "Tipo de contato", required = true, example = "COMERCIAL")

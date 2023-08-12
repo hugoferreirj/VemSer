@@ -24,26 +24,33 @@ public class EnderecoService {
     private final EmailService emailService;
 
 
-    public EnderecoDTO create(Integer idPessoa, EnderecoCreateDTO endereco) throws RegraDeNegocioException {
-        PessoaEntity pessoa = pessoaService.findById(idPessoa);
-        if (pessoa != null) {
-            EnderecoEntity entity = objectMapper.convertValue(endereco, EnderecoEntity.class);
-            entity.setIdPessoa(idPessoa);
+//    public EnderecoDTO create(Integer idPessoa, EnderecoCreateDTO endereco) throws RegraDeNegocioException {
+//        PessoaEntity pessoa = pessoaService.findById(idPessoa);
+//        if (pessoa != null) {
+//            EnderecoEntity entity = objectMapper.convertValue(endereco, EnderecoEntity.class);
+//
+//
+//            try {
+//                emailService.enviarEmailSobreEnderecoUtilizandoTemplate(pessoa, "Um endereço foi criado e associado a sua conta!");
+//            } catch (MessagingException e) {
+//                throw new RuntimeException(e);
+//            }
+//
+//            EnderecoEntity enderecoCriado = enderecoRepository.save(entity);
+//            EnderecoDTO enderecoDTO = objectMapper.convertValue(enderecoCriado, EnderecoDTO.class);
+//
+//            return enderecoDTO;
+//        } else {
+//            return null;
+//        }
+//    }
 
+    public EnderecoDTO create(EnderecoCreateDTO endereco) throws RegraDeNegocioException {
+        EnderecoEntity entity = objectMapper.convertValue(endereco, EnderecoEntity.class);
+        EnderecoEntity enderecoCriado = enderecoRepository.save(entity);
+        EnderecoDTO enderecoDTO = objectMapper.convertValue(enderecoCriado, EnderecoDTO.class);
 
-            try {
-                emailService.enviarEmailSobreEnderecoUtilizandoTemplate(pessoa, "Um endereço foi criado e associado a sua conta!");
-            } catch (MessagingException e) {
-                throw new RuntimeException(e);
-            }
-
-            EnderecoEntity enderecoCriado = enderecoRepository.save(entity);
-            EnderecoDTO enderecoDTO = objectMapper.convertValue(enderecoCriado, EnderecoDTO.class);
-
-            return enderecoDTO;
-        } else {
-            return null;
-        }
+        return enderecoDTO;
     }
 
     public List<EnderecoDTO> list() {
@@ -57,7 +64,6 @@ public class EnderecoService {
         EnderecoEntity entity = getEndereco(enderecoAtualizar.getIdEndereco());
         if (entity != null) {
             entity.setTipo(enderecoAtualizar.getTipo());
-            entity.setIdPessoa(enderecoAtualizar.getIdPessoa());
             entity.setLogradouro(enderecoAtualizar.getLogradouro());
             entity.setNumero(enderecoAtualizar.getNumero());
             entity.setComplemento(enderecoAtualizar.getComplemento());
@@ -67,13 +73,13 @@ public class EnderecoService {
             entity.setPais(enderecoAtualizar.getPais());
             enderecoRepository.save(entity);
 
-            PessoaEntity pessoa = pessoaService.findById(entity.getIdPessoa());
-
-            try {
-                emailService.enviarEmailSobreEnderecoUtilizandoTemplate(pessoa, "O endereço " + idEndereco + " associado à sua conta foi alterado!");
-            } catch (MessagingException e) {
-                throw new RuntimeException(e);
-            }
+//            PessoaEntity pessoa = pessoaService.findById(entity.getIdPessoa());
+//
+//            try {
+//                emailService.enviarEmailSobreEnderecoUtilizandoTemplate(pessoa, "O endereço " + idEndereco + " associado à sua conta foi alterado!");
+//            } catch (MessagingException e) {
+//                throw new RuntimeException(e);
+//            }
         }
         return enderecoAtualizar;
     }
@@ -82,25 +88,19 @@ public class EnderecoService {
         EnderecoEntity enderecoRecuperado = getEndereco(id);
         if (enderecoRecuperado != null) {
             enderecoRepository.delete(enderecoRecuperado);
-            PessoaEntity pessoa = pessoaService.findById(enderecoRecuperado.getIdPessoa());
-            try {
-                emailService.enviarEmailSobreEnderecoUtilizandoTemplate(pessoa, "O endereço " + id + " associado à sua conta foi excluido!");
-            } catch (MessagingException e) {
-                throw new RuntimeException(e);
-            }
+//            PessoaEntity pessoa = pessoaService.findById(enderecoRecuperado.getIdPessoa());
+//            try {
+//                emailService.enviarEmailSobreEnderecoUtilizandoTemplate(pessoa, "O endereço " + id + " associado à sua conta foi excluido!");
+//            } catch (MessagingException e) {
+//                throw new RuntimeException(e);
+//            }
         }
     }
 
-    public List<EnderecoDTO> listByPessoa(Integer idPessoa) {
-        return enderecoRepository.findAll().stream()
-                .filter(endereco -> endereco.getIdPessoa() == idPessoa)
-                .map(this::retornarDTO)
-                .collect(Collectors.toList());
-    }
-
-//    public List<EnderecoDTO> listByEndereco(Integer idPessoa) {
-//        return enderecoRepository.listByEndereco(idPessoa).stream()
-//                .map(endereco -> objectMapper.convertValue(endereco, EnderecoDTO.class))
+//    public List<EnderecoDTO> listByPessoa(Integer idPessoa) {
+//        return enderecoRepository.findAll().stream()
+//                .filter(endereco -> endereco.getIdPessoa() == idPessoa)
+//                .map(this::retornarDTO)
 //                .collect(Collectors.toList());
 //    }
 

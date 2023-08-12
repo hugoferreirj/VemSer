@@ -37,7 +37,7 @@ public class PessoaService {
 
     public PessoaEntity findById(Integer id) throws RegraDeNegocioException {
         PessoaEntity entity = pessoaRepository.findById(id)
-                .orElseThrow(() -> new RegraDeNegocioException("pessoa não econtrada"));
+                .orElseThrow(() -> new RegraDeNegocioException("pessoa não encontrada"));
         return entity;
     }
 
@@ -54,6 +54,9 @@ public class PessoaService {
         pessoaEntityRecuperada.setEmail(pessoaDto.getEmail());
         pessoaEntityRecuperada.setDataNascimento(pessoaDto.getDataNascimento());
         pessoaEntityRecuperada.setNome(pessoaDto.getNome());
+        pessoaEntityRecuperada.setPet(pessoaDto.getPet());
+        pessoaEntityRecuperada.setContatos(pessoaDto.getContatos());
+        pessoaEntityRecuperada.setEnderecos(pessoaDto.getEnderecos());
 
         return retornarDTO(pessoaRepository.save(pessoaEntityRecuperada));
     }
@@ -85,5 +88,48 @@ public class PessoaService {
 
     public PessoaDTO retornarDTO(PessoaEntity entity) {
         return objectMapper.convertValue(entity, PessoaDTO.class);
+    }
+
+    public List<PessoaDTO> findAllByNomeContains(String nome) {
+        return pessoaRepository.findAllByNomeContains(nome).stream()
+                .map(this::retornarDTO)
+                .collect(Collectors.toList());
+    }
+
+
+    public List<PessoaDTO> findByPetIsNotNull() {
+        return pessoaRepository.findByPetIsNotNull().stream()
+                .map(this::retornarDTO)
+                .collect(Collectors.toList());
+    }
+
+    public PessoaDTO findByIdPessoaAndPetIsNotNull(Integer id) throws RegraDeNegocioException {
+        PessoaEntity entity = pessoaRepository.findByIdPessoaAndPetIsNotNull(id)
+                .orElseThrow(() -> new RegraDeNegocioException("Pessoa não encontrada ou pessoa não possui pet"));
+        return retornarDTO(entity);
+    }
+
+    public List<PessoaDTO> findByContatosIsNotNull() {
+        return pessoaRepository.findByContatosIsNotNull().stream()
+                .map(this::retornarDTO)
+                .collect(Collectors.toList());
+    }
+
+    public PessoaDTO findByIdPessoaAndContatosIsNotNull(Integer id) throws RegraDeNegocioException {
+        PessoaEntity entity = pessoaRepository.findByIdPessoaAndContatosIsNotNull(id)
+                .orElseThrow(() -> new RegraDeNegocioException("Pessoa não encontrada ou pessoa não possui contatos"));
+        return retornarDTO(entity);
+    }
+
+    public List<PessoaDTO> findByEnderecosIsNotNull() {
+        return pessoaRepository.findByEnderecosIsNotNull().stream()
+                .map(this::retornarDTO)
+                .collect(Collectors.toList());
+    }
+
+    public PessoaDTO findByIdPessoaAndEnderecosIsNotNull(Integer id) throws RegraDeNegocioException {
+        PessoaEntity entity = pessoaRepository.findByIdPessoaAndEnderecosIsNotNull(id)
+                .orElseThrow(() -> new RegraDeNegocioException("Pessoa não encontrada ou pessoa não possui endereços"));
+        return retornarDTO(entity);
     }
 }

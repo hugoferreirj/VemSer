@@ -31,20 +31,21 @@ public class EnderecoController implements EnderecoControllerDoc {
         return new ResponseEntity<>(enderecoService.list(), HttpStatus.OK);
     }
 
-    @GetMapping("/{idPessoa}/pessoa") // GET localhost:8080/contato/{idPessoa}
-    public ResponseEntity<List<EnderecoDTO>> listByPessoa(@PathVariable("idPessoa") Integer id) {
-        return new ResponseEntity<>(enderecoService.listByPessoa(id), HttpStatus.OK);
-    }
-
-//    @GetMapping("/{idEndereco}") // GET localhost:8080/endereco/{idPessoa}
-//    public ResponseEntity<List<EnderecoDTO>> listByEndereco(@PathVariable("idEndereco") Integer id) {
-//        return new ResponseEntity<>(enderecoService.listByEndereco(id), HttpStatus.OK);
+//    @GetMapping("/{idPessoa}/pessoa") // GET localhost:8080/contato/{idPessoa}
+//    public ResponseEntity<List<EnderecoDTO>> listByPessoa(@PathVariable("idPessoa") Integer id) {
+//        return new ResponseEntity<>(enderecoService.listByPessoa(id), HttpStatus.OK);
 //    }
 
-    @PostMapping("/{idPessoa}") // POST localhost:8080/endereco/{idPessoa}
-    public ResponseEntity<EnderecoDTO> create(@PathVariable("idPessoa") Integer id, @Valid @RequestBody EnderecoCreateDTO endereco) throws Exception {
-        log.info("Criar endereço");
-        return new ResponseEntity<>(enderecoService.create(id, endereco), HttpStatus.OK);
+
+//    @PostMapping("/{idPessoa}") // POST localhost:8080/endereco/{idPessoa}
+//    public ResponseEntity<EnderecoDTO> create(@PathVariable("idPessoa") Integer id, @Valid @RequestBody EnderecoCreateDTO endereco) throws Exception {
+//        log.info("Criar endereço");
+//        return new ResponseEntity<>(enderecoService.create(id, endereco), HttpStatus.OK);
+//    }
+
+    @PostMapping // POST localhost:8080/endereco
+    public ResponseEntity<EnderecoDTO> create(@Valid @RequestBody EnderecoCreateDTO endereco) throws Exception {
+        return new ResponseEntity<>(enderecoService.create(endereco), HttpStatus.OK);
     }
 
     @PutMapping("/{idEndereco}") // PUT localhost:8080/endereco/{idEndereco}
