@@ -1,8 +1,7 @@
 package br.com.dbc.vemser.pessoaapi.controller;
 
 import br.com.dbc.vemser.pessoaapi.documentacao.PessoaControllerDoc;
-import br.com.dbc.vemser.pessoaapi.dto.PessoaCreateDTO;
-import br.com.dbc.vemser.pessoaapi.dto.PessoaDTO;
+import br.com.dbc.vemser.pessoaapi.dto.*;
 import br.com.dbc.vemser.pessoaapi.exceptions.EntidadeNaoEncontradaException;
 import br.com.dbc.vemser.pessoaapi.exceptions.RegraDeNegocioException;
 import br.com.dbc.vemser.pessoaapi.service.PessoaService;
@@ -81,34 +80,20 @@ public class PessoaController implements PessoaControllerDoc {
         return ResponseEntity.ok(pessoaService.findAllByNomeContains(nome));
     }
 
-    @GetMapping("/listar-com-pets")
-    public ResponseEntity<List<PessoaDTO>> findByPetIsNotNull() {
-        return ResponseEntity.ok(pessoaService.findByPetIsNotNull());
-    }
 
-    @GetMapping("/listar-com-pets/{idPessoa}")
-    public ResponseEntity<PessoaDTO> findByIdPessoaAndPetIsNotNull(@PathVariable("idPessoa") Integer id) throws RegraDeNegocioException {
-        return ResponseEntity.ok(pessoaService.findByIdPessoaAndPetIsNotNull(id));
+    @GetMapping("/listar-com-pets")
+    public ResponseEntity<List<PessoaPetDTO>> findAllWithPetsOrByIdPessoa(@RequestParam(required = false) Integer id) throws RegraDeNegocioException {
+        return ResponseEntity.ok(pessoaService.findAllWithPetsOrByIdPessoa(id));
     }
 
     @GetMapping("/listar-com-contatos")
-    public ResponseEntity<List<PessoaDTO>> findByContatosIsNotNull() {
-        return ResponseEntity.ok(pessoaService.findByContatosIsNotNull());
-    }
-
-    @GetMapping("/listar-com-contatos/{idPessoa}")
-    public ResponseEntity<PessoaDTO> findByIdPessoaAndContatosIsNotNull(@PathVariable("idPessoa") Integer id) throws RegraDeNegocioException {
-        return ResponseEntity.ok(pessoaService.findByIdPessoaAndContatosIsNotNull(id));
+    public ResponseEntity<List<PessoaContatosDTO>> findAllWithContatosOrByIdPessoa(@RequestParam(required = false) Integer id) throws RegraDeNegocioException {
+        return ResponseEntity.ok(pessoaService.findAllWithContatosOrByIdPessoa(id));
     }
 
     @GetMapping("/listar-com-enderecos")
-    public ResponseEntity<List<PessoaDTO>> findByEnderecosIsNotNull() {
-        return ResponseEntity.ok(pessoaService.findByEnderecosIsNotNull());
-    }
-
-    @GetMapping("/listar-com-enderecos/{idPessoa}")
-    public ResponseEntity<PessoaDTO> findByIdPessoaAndEnderecosIsNotNull(@PathVariable("idPessoa") Integer id) throws RegraDeNegocioException {
-        return ResponseEntity.ok(pessoaService.findByIdPessoaAndEnderecosIsNotNull(id));
+    public ResponseEntity<List<PessoaEnderecosDTO>> findAllWithEnderecosOrByIdPessoa(@RequestParam(required = false) Integer id) throws RegraDeNegocioException {
+        return ResponseEntity.ok(pessoaService.findAllWithEnderecosOrByIdPessoa(id));
     }
 
 

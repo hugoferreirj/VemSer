@@ -1,16 +1,13 @@
 package br.com.dbc.vemser.pessoaapi.dto;
 
-import br.com.dbc.vemser.pessoaapi.entity.ContatoEntity;
-import br.com.dbc.vemser.pessoaapi.entity.EnderecoEntity;
-import br.com.dbc.vemser.pessoaapi.entity.PetEntity;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PastOrPresent;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
-import java.util.Set;
 
 @Data
 public class PessoaCreateDTO {
@@ -30,10 +27,4 @@ public class PessoaCreateDTO {
   @Email(message = "O email deve ser válido")
   @Schema(description = "Endereço de email da pessoa", example = "nome@example.com")
   private String email;
-
-  private Set<EnderecoEntity> enderecos;
-
-  private Set<ContatoEntity> contatos;
-
-  private PetEntity pet;
 }

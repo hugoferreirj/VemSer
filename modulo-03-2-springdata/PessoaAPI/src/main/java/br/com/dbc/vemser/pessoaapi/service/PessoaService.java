@@ -1,8 +1,7 @@
 package br.com.dbc.vemser.pessoaapi.service;
 
 import br.com.dbc.vemser.pessoaapi.client.DadosPessoaisClient;
-import br.com.dbc.vemser.pessoaapi.dto.PessoaCreateDTO;
-import br.com.dbc.vemser.pessoaapi.dto.PessoaDTO;
+import br.com.dbc.vemser.pessoaapi.dto.*;
 import br.com.dbc.vemser.pessoaapi.entity.PessoaEntity;
 import br.com.dbc.vemser.pessoaapi.exceptions.EntidadeNaoEncontradaException;
 import br.com.dbc.vemser.pessoaapi.exceptions.RegraDeNegocioException;
@@ -54,9 +53,6 @@ public class PessoaService {
         pessoaEntityRecuperada.setEmail(pessoaDto.getEmail());
         pessoaEntityRecuperada.setDataNascimento(pessoaDto.getDataNascimento());
         pessoaEntityRecuperada.setNome(pessoaDto.getNome());
-        pessoaEntityRecuperada.setPet(pessoaDto.getPet());
-        pessoaEntityRecuperada.setContatos(pessoaDto.getContatos());
-        pessoaEntityRecuperada.setEnderecos(pessoaDto.getEnderecos());
 
         return retornarDTO(pessoaRepository.save(pessoaEntityRecuperada));
     }
@@ -97,39 +93,25 @@ public class PessoaService {
     }
 
 
-    public List<PessoaDTO> findByPetIsNotNull() {
-        return pessoaRepository.findByPetIsNotNull().stream()
-                .map(this::retornarDTO)
+    public List<PessoaPetDTO> findAllWithPetsOrByIdPessoa(Integer id) {
+        return pessoaRepository.findAllWithPetsOrByIdPessoa(id).stream()
+                .map(pessoa -> objectMapper.convertValue(pessoa, PessoaPetDTO.class))
                 .collect(Collectors.toList());
     }
 
-    public PessoaDTO findByIdPessoaAndPetIsNotNull(Integer id) throws RegraDeNegocioException {
-        PessoaEntity entity = pessoaRepository.findByIdPessoaAndPetIsNotNull(id)
-                .orElseThrow(() -> new RegraDeNegocioException("Pessoa não encontrada ou pessoa não possui pet"));
-        return retornarDTO(entity);
+
+    public List<PessoaContatosDTO> findAllWithContatosOrByIdPessoa(Integer id) throws RegraDeNegocioException {
+        return pessoaRepository.findAllWithContatosOrByIdPessoa(id).stream()
+                .map(pessoa -> objectMapper.convertValue(pessoa, PessoaContatosDTO.class))
+                .collect(Collectors.toList());
+
     }
 
-    public List<PessoaDTO> findByContatosIsNotNull() {
-        return pessoaRepository.findByContatosIsNotNull().stream()
-                .map(this::retornarDTO)
+
+    public List<PessoaEnderecosDTO> findAllWithEnderecosOrByIdPessoa(Integer id) throws RegraDeNegocioException {
+        return pessoaRepository.findAllWithEnderecosOrByIdPessoa(id).stream()
+                .map(pessoa -> objectMapper.convertValue(pessoa, PessoaEnderecosDTO.class))
                 .collect(Collectors.toList());
     }
 
-    public PessoaDTO findByIdPessoaAndContatosIsNotNull(Integer id) throws RegraDeNegocioException {
-        PessoaEntity entity = pessoaRepository.findByIdPessoaAndContatosIsNotNull(id)
-                .orElseThrow(() -> new RegraDeNegocioException("Pessoa não encontrada ou pessoa não possui contatos"));
-        return retornarDTO(entity);
-    }
-
-    public List<PessoaDTO> findByEnderecosIsNotNull() {
-        return pessoaRepository.findByEnderecosIsNotNull().stream()
-                .map(this::retornarDTO)
-                .collect(Collectors.toList());
-    }
-
-    public PessoaDTO findByIdPessoaAndEnderecosIsNotNull(Integer id) throws RegraDeNegocioException {
-        PessoaEntity entity = pessoaRepository.findByIdPessoaAndEnderecosIsNotNull(id)
-                .orElseThrow(() -> new RegraDeNegocioException("Pessoa não encontrada ou pessoa não possui endereços"));
-        return retornarDTO(entity);
-    }
 }
