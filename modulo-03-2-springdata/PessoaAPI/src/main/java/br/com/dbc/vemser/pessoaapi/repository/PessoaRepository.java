@@ -17,7 +17,15 @@ public interface PessoaRepository extends JpaRepository<PessoaEntity, Integer> {
 //    List<PessoaEntity> findAllComOptional(@Param("idPessoa") Integer idPessoa);
 
 
-    @Query("Select new br.com.dbc.vemser.pessoaapi.dto.PessoaRelatorioDTO(p.idPessoa, p.nome, p.email, c.numero, e.cep, e.cidade, e.estado, e.pais, pt.nome) From PESSOA p join p.contatos c join p.enderecos e join p.pet pt")
+    @Query("Select new br.com.dbc.vemser.pessoaapi.dto.PessoaRelatorioDTO(p.idPessoa," +
+            " p.nome, " +
+            "p.email, " +
+            "c.numero, " +
+            "e.cep, " +
+            "e.cidade, " +
+            "e.estado, " +
+            "e.pais, " +
+            "pt.nome) From PESSOA p left join p.contatos c left join p.enderecos e left join p.pet pt")
     List<PessoaRelatorioDTO> geraRelatorio();
 
     @Query("Select p From PESSOA p where (:idPessoa is null or p.idPessoa = :idPessoa)")
