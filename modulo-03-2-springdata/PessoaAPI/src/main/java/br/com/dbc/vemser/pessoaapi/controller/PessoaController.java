@@ -96,5 +96,16 @@ public class PessoaController implements PessoaControllerDoc {
         return ResponseEntity.ok(pessoaService.findAllWithEnderecosOrByIdPessoa(id));
     }
 
+    @GetMapping("/pessoa-completo")
+    public ResponseEntity<List<PessoaCompletoDTO>> findAllCompleteOrById(@RequestParam(required = false) Integer id) throws RegraDeNegocioException {
+        return ResponseEntity.ok(pessoaService.findAllCompleteOrById(id));
+    }
+
+    @GetMapping("/relatorio")
+    public ResponseEntity<List<PessoaRelatorioDTO>> findAllCompleteOrById() {
+        return ResponseEntity.ok(pessoaService.geraRelatorio());
+    }
+
+
 
 }

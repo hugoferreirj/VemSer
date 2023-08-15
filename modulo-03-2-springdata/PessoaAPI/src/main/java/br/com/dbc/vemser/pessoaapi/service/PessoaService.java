@@ -114,4 +114,14 @@ public class PessoaService {
                 .collect(Collectors.toList());
     }
 
+    public List<PessoaCompletoDTO> findAllCompleteOrById(Integer id) throws RegraDeNegocioException {
+        return pessoaRepository.findAllCompleteOrById(id).stream()
+                .map(pessoa -> objectMapper.convertValue(pessoa, PessoaCompletoDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    public List<PessoaRelatorioDTO> geraRelatorio() {
+        return pessoaRepository.geraRelatorio();
+    }
+
 }

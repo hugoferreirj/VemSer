@@ -1,8 +1,6 @@
 package br.com.dbc.vemser.pessoaapi.repository;
 
-import br.com.dbc.vemser.pessoaapi.dto.PessoaContatosDTO;
-import br.com.dbc.vemser.pessoaapi.dto.PessoaEnderecosDTO;
-import br.com.dbc.vemser.pessoaapi.dto.PessoaPetDTO;
+import br.com.dbc.vemser.pessoaapi.dto.*;
 import br.com.dbc.vemser.pessoaapi.entity.PessoaEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -19,6 +17,12 @@ public interface PessoaRepository extends JpaRepository<PessoaEntity, Integer> {
 //    List<PessoaEntity> findAllComOptional(@Param("idPessoa") Integer idPessoa);
 
 
+    @Query("Select new br.com.dbc.vemser.pessoaapi.dto.PessoaRelatorioDTO(p.idPessoa, p.nome, p.email, c.numero, e.cep, e.cidade, e.estado, e.pais, pt.nome) From PESSOA p join p.contatos c join p.enderecos e join p.pet pt")
+    List<PessoaRelatorioDTO> geraRelatorio();
+
+    @Query("Select p From PESSOA p where (:idPessoa is null or p.idPessoa = :idPessoa)")
+    List<PessoaEntity> findAllCompleteOrById(@Param("idPessoa") Integer idPessoa);
+
     @Query("Select p From PESSOA p join fetch p.pet pt where (:idPessoa is null or p.idPessoa = :idPessoa)")
     List<PessoaEntity> findAllWithPetsOrByIdPessoa(@Param("idPessoa") Integer idPessoa);
 
@@ -30,6 +34,7 @@ public interface PessoaRepository extends JpaRepository<PessoaEntity, Integer> {
 
     @Query("SELECT p FROM PESSOA p WHERE p.dataNascimento BETWEEN :dataInicial AND :dataFinal")
     List<PessoaEntity> findAllWithDataNascimentoBetween(@Param("dataInicial") LocalDate dataInicial, @Param("dataFinal") LocalDate dataFinal);
+
     @Query("Select DISTINCT p From PESSOA p join fetch p.enderecos ep")
     List<PessoaEntity> findAllWithEnderecos();
 
