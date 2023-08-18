@@ -3,6 +3,7 @@ package br.com.dbc.vemser.pessoaapi.security;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -28,8 +29,11 @@ public class SecurityConfiguration {
                 .cors().and()
                 .csrf().disable()
                 .authorizeHttpRequests((authz) -> authz
-                        .antMatchers("/auth", "/").permitAll()
-                        .anyRequest().authenticated()
+                        .antMatchers("/auth/login", "/").permitAll()
+                        .antMatchers("/auth/create-user", "/").hasRole("ADMIN")
+                        .antMatchers(HttpMethod.GET,"/pessoa", "/contato", "/endereco", "/pet").hasAnyRole("ADMIN", "MARKETING", "USUARIO")
+                        .antMatchers("/pessoa/**", "/contato/**", "/endereco/**").hasAnyRole("ADMIN", "USUARIO")
+                        .anyRequest().hasRole("ADMIN")
                 );
         http.addFilterBefore(new TokenAuthenticationFilter(tokenService), UsernamePasswordAuthenticationFilter.class);
 
